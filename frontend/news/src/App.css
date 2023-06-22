@@ -1,0 +1,217 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+*,
+*::after,
+*::before{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --color-131921: #131921;
+  --color-3b4149: #3b4149;
+  --color-febd69: #febd69;
+  --color-232f3e: #232f3e;
+  --color-bf4800: #bf4800;
+  --color-f5f5f7: #f5f5f7;
+  --color-ededed: #ededed;
+  --color-777777: #777777;
+  --color-1c1c1b: #1c1c1b;
+}
+html{
+  scroll-behavior: smooth;
+}
+a{
+  text-decoration: none;
+  cursor: pointer;
+}
+li{
+  list-style: none;
+}
+ul{
+	padding: 0;
+}
+.form-control:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+#wrapper{
+  min-height: 100vh;
+  position: relative;
+}
+/* Footer */
+footer {
+  position:absolute;
+  bottom:-131px;
+  width:100%;
+  background-color: var(--color-232f3e);
+}
+.footer-wrapper-2 {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.footer-wrapper-1 .input-group-text {
+  background-color: var(--color-232f3e);
+  color: white;
+  padding: 8px 17px;
+}
+/* Footer End */
+.login {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	font-family: 'Roboto Slab', serif;
+}
+#image{
+	width: 100%;
+	height: 100%;
+	object-fit: contain ;
+	object-position: center;
+}
+.image{
+	width: 100%;
+	height: 100%;
+	object-fit: contain ;
+	object-position: center;
+}
+#side1 {
+	background-color: #1c1c50;
+	height: 76vh;
+	border-radius: 5px;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#side1 h3 {
+	color: white;
+	font-weight: bold;
+	text-shadow: 1px 1px 1px black;
+	text-align: center;
+}
+
+#side1 p {
+	color: white;
+	font-weight: bold;
+	text-align: center;
+}
+
+#btn {
+	text-align: center;
+	border: 2px solid white;
+	border-radius: 10px;
+	width: 100%;
+	background: transparent;
+	color: white;
+}
+
+#btn:hover {
+	background: white;
+	color: black;
+}
+
+#side2 {
+	background-color: white;
+	border-radius: 5px;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+	display: flex;
+	text-align: center;
+	align-items: center;
+}
+.form-login{
+	width: 80%;
+	margin: auto;
+	padding: 20px 0;
+}
+#side2 h3 {
+	color: #1c1c50;
+	font-weight: bold;
+}
+
+
+#side2 .form-login .inp input {
+	width: 100%;
+	margin-top: 20px;
+	height: 40px;
+	padding: 10px;
+}
+#side2 .form-login .inp select {
+    width: 100%;
+    margin-top: 20px;
+    height: 40px;
+    border: 1px solid gray;
+}
+#side2 p {
+	margin-top: 20px;
+	cursor: pointer;
+}
+
+#side2 a {
+	color: black;
+}
+#side2 .icons{
+	width: 100%;
+	height: 42px;
+	color: white;
+	background-color: #1c1c50;
+	border: none;
+	font-weight: bold;
+	margin-top: 20px;
+}
+
+#side2 .icons i {
+	margin-left: 10px;
+	cursor: pointer;
+}
+
+#login button {
+	width: 100%;
+	height: 42px;
+	color: white;
+	background-color: #1c1c50;
+	border: none;
+	font-weight: bold;
+	margin-top: 20px;
+}
+
+#login button:hover {
+	color: black;
+	background: gray;
+}
+

@@ -1,11 +1,15 @@
 import axios from './CustomAxios';
 
 const fetchAllUser = (page) => {
-    return axios.get(`/user/get-all?page=${page}&limit=2`);
+    return axios.get(`/user/get-all?page=${page}&limit=5`);
 }
 
-const postSignup = (SignupForm) => {
-    return axios.post(`/auth/sign-up`,SignupForm);
+const postInsertUser = (InsertUserForm) => {
+    return axios.post(`/user/insert`, InsertUserForm);
 }
 
-export { fetchAllUser, postSignup};
+const putUpdateUser = (UpdateUserForm) => {
+    return axios.put(`/user/update`, UpdateUserForm);
+}
+
+export { fetchAllUser, postInsertUser, putUpdateUser};

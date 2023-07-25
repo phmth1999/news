@@ -205,8 +205,6 @@ public class UserService implements IUserService{
 		
 		oldUserEntity.get().setFullname(updateUserRequest.getFullname());
 		oldUserEntity.get().setStateUser(updateUserRequest.getStatus());
-		RoleEntity roleEntity = roleRepository.findById(updateUserRequest.getRole()).get();
-		oldUserEntity.get().setRole(roleEntity);
 		
 		UserEntity userSave = userRepository.save(oldUserEntity.get());
 		
@@ -220,8 +218,6 @@ public class UserService implements IUserService{
 		userResponse.setFullname(userSave.getFullname());
 		userResponse.setUsername(userSave.getUsername());
 		userResponse.setStatus(userSave.getStateUser());
-		roleEntity = roleRepository.findById(userSave.getRole().getId()).get();
-		userResponse.setRoles(roleEntity.getName());
 		
 		return userResponse;
 	}

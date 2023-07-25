@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,25 +58,25 @@ public class UserApi {
 			UserResponse userResponse = userService.insert(insertUserRequest);
 			
 			if(userResponse == null || userResponse.isEmpty()) {
-				return new ResponseEntity<>(new MessageResponse("Create failed!", null), HttpStatus.OK);
+				return new ResponseEntity<>(new MessageResponse("Create user failed!", null), HttpStatus.OK);
 			}
 			
-			return new ResponseEntity<>(new MessageResponse("Create success!", userResponse), HttpStatus.OK);
+			return new ResponseEntity<>(new MessageResponse("Create user success!", userResponse), HttpStatus.OK);
 			
 		} catch (UserException e) {
 			return new ResponseEntity<>(new MessageResponse(e.getMessage(), null), HttpStatus.OK);
 		}
 	}
-	@PostMapping(value = "/update")
+	@PutMapping(value = "/update")
 	public ResponseEntity<?> update(@RequestBody UpdateUserRequest updateUserRequest){
 		try {
 			UserResponse userResponse = userService.update(updateUserRequest);
 			
 			if(userResponse == null || userResponse.isEmpty()) {
-				return new ResponseEntity<>(new MessageResponse("Create failed!", null), HttpStatus.OK);
+				return new ResponseEntity<>(new MessageResponse("Update user failed!", null), HttpStatus.OK);
 			}
 			
-			return new ResponseEntity<>(new MessageResponse("Create success!", userResponse), HttpStatus.OK);
+			return new ResponseEntity<>(new MessageResponse("Update user success!", userResponse), HttpStatus.OK);
 			
 		} catch (UserException e) {
 			return new ResponseEntity<>(new MessageResponse(e.getMessage(), null), HttpStatus.OK);

@@ -5,12 +5,16 @@ import { fetchAllUser } from "../../services/UserService";
 import AddUserModal from "../../components/admin/modal/AddUserModal";
 import UpdateUserModal from "../../components/admin/modal/UpdateUserModal";
 import ReactPaginate from "react-paginate";
+import _ from 'lodash';
 
 const ManagerUser = () => {
-  const [isShow, setShow] = useState(false);
+  const [isShowInsert, setShowInsert] = useState(false);
+  const [isShowUpdate, setShowUpdate] = useState(false);
+  const [dataUserUpdate, setDataUserUpdate] = useState({});
 
   const handleClose = () => {
-    setShow(false);
+    setShowInsert(false);
+    setShowUpdate(false);
   };
 
   const [listUsers, setListUsers] = useState([]);
@@ -28,8 +32,6 @@ const ManagerUser = () => {
     }
   };
 
-  console.log(listUsers);
-
   const handlePageClick = (event) => {
     getUser(+event.selected + 1);
   };
@@ -40,12 +42,25 @@ const ManagerUser = () => {
     }
   };
 
+  const handleUpdateUser = (user) => {
+    setDataUserUpdate(user);
+    setShowUpdate(true);
+  }
+
+  const handleUpdateUserFormModal = (user) => {
+    let cloneListUsers = _.cloneDeep(listUsers);
+    let index = listUsers.findIndex(item => item.id === user.id);
+    cloneListUsers[index].fullname = user.fullname;
+    cloneListUsers[index].status = user.status;
+    setListUsers(cloneListUsers);
+  }
+
   return (
     <>
       <section className="content container py-4">
         <div className="d-flex justify-content-between">
           <p>List of users</p>
-          <Link onClick={() => setShow(true)} className="btn btn-primary">
+          <Link onClick={() => setShowInsert(true)} className="btn btn-primary">
             Add User
           </Link>
         </div>
@@ -68,12 +83,11 @@ const ManagerUser = () => {
                     <td>{item.id}</td>
                     <td>{item.username}</td>
                     <td>{item.fullname}</td>
-                    <td>{item.role.name}</td>
+                    <td>{item.roles}</td>
                     <td>
                       <button
-                        data-bs-toggle="modal"
-                        data-bs-target="#updateUser"
                         className="btn btn-sm btn-primary"
+                        onClick={() => handleUpdateUser(item)}
                       >
                         Update
                       </button>
@@ -108,11 +122,16 @@ const ManagerUser = () => {
         />
       </section>
       <AddUserModal
-        show={isShow}
+        show={isShowInsert}
         handleClose={handleClose}
         handleUpdateTable={handleUpdateTable}
       />
-      <UpdateUserModal />
+      <UpdateUserModal 
+        show={isShowUpdate}
+        handleClose={handleClose}
+        dataUserUpdate={dataUserUpdate}
+        handleUpdateUserFormModal={handleUpdateUserFormModal}
+      />
     </>
   );
 };

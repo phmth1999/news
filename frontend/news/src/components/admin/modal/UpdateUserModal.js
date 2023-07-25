@@ -1,42 +1,95 @@
-import React from 'react';
+import React from "react";
+import { useState, useEffect } from "react";
+import { putUpdateUser } from "../../../services/UserService";
+import { toast } from "react-toastify";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
-const UpdateUserModal = () => {
+const UpdateUserModal = (props) => {
+  const { show, handleClose, dataUserUpdate, handleUpdateUserFormModal } = props;
+  const [id, setId] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [status, setStatus] = useState("");
+  const updateUser = {id, fullname, status};
+
+  const handleUpdateUser = async () => {
+    let res = await putUpdateUser(updateUser);
+    if (res && res.data && res.data.id) {
+      handleUpdateUserFormModal({
+        fullname: fullname,
+        status: status,
+        id: id,
+      })
+      handleClose();
+      toast.success(res.message);
+    }else{
+      handleClose();
+      toast.error(res.message);
+    }
+  }
+
+  useEffect(() => {
+    if(show){
+      setId(dataUserUpdate.id);
+      setFullname(dataUserUpdate.fullname);
+      setStatus(dataUserUpdate.status);
+    }
+  }, [dataUserUpdate]);
+
+
   return (
     <>
-    <div className="modal" id="updateUser">
-        <div className="modal-dialog">
-            <div className="modal-content">
-                <form action='' method=''>
-                    <div className="modal-header">
-                        <h4 className="modal-title">Update User</h4>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-
-                    <div className="modal-body">
-                        <div className="form-group">
-							<label htmlFor="">Fullname</label> 
-							<input type="text" className="form-control" required="required" />
-						</div>
-                        <div className="form-group">
-							<label htmlFor="">Role</label> 
-							<select className="form-control form-select"  required="required">
-								<option hidden="" value="0"></option>
-								<option value="1">ROLE_ADMIN</option>
-								<option value="2">ROLE_USER</option>
-							</select>
-						</div>
-                    </div>
-
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" className="btn btn-primary">Update</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Update User</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form>
+          <div className="form-group">
+            <label htmlFor="">Id</label>
+            <input
+              onChange={(event) => setId(event.target.value)}
+              value={id}
+              type="text"
+              className="form-control"
+              readOnly
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="">Fullname</label>
+            <input
+              onChange={(event) => setFullname(event.target.value)}
+              value={fullname}
+              type="text"
+              className="form-control"
+              required="required"
+            />
+          </div>
+          <div className="form-group">
+				<label htmlFor="">Status</label> 
+				<select 
+          className="form-control form-select"  
+          required="required"
+          onChange={(event) => setStatus(event.target.value)}
+          value={status}
+        >
+					<option value="ACTIVED">ACTIVED</option>
+					<option value="DISABLED">DISABLED</option>
+				</select>
+			</div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={() => handleUpdateUser()}>
+            Update
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
-  )
-}
+  );
+};
 
-export default UpdateUserModal
+export default UpdateUserModal;

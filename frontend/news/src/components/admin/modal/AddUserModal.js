@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { postSignup } from "../../../services/UserService";
+import { postInsertUser } from "../../../services/UserService";
 import { toast } from "react-toastify";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -11,27 +11,20 @@ const AddUserModal = (props) => {
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [status, setStateUser] = useState("");
-  const [roles, setRole] = useState("");
-  const SignupForm = { fullname, username, password, status, roles };
+  const InsertUser = { fullname, username, password};
 
   const handleSaveUser = async () => {
-    let res = await postSignup(SignupForm);
+    let res = await postInsertUser(InsertUser);
     if (res && res.data && res.data.id) {
-      console.log(res);
-      console.log(SignupForm);
-      handleClose();
-      setFullname("");
-      setUsername("");
-      setPassword("");
-      setStateUser("");
-      setRole("");
-      handleUpdateTable(true);
-      toast.success("A user is created success!");
-      console.log(SignupForm);
+      // handleClose();
+      setFullname('');
+      setUsername('');
+      setPassword('');
+      // handleUpdateTable(true);
+      toast.success(res.message);
     } else {
       handleUpdateTable(false);
-      toast.error("An error!");
+      toast.error(res.message);
     }
   };
 
@@ -42,6 +35,7 @@ const AddUserModal = (props) => {
           <Modal.Title>Add User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <form>
           <div className="form-group">
             <label htmlFor="">Fullname</label>
             <input
@@ -66,34 +60,14 @@ const AddUserModal = (props) => {
             <label htmlFor="">Password</label>
             <input
               onChange={(event) => setPassword(event.target.value)}
+              value={password}
               type="password"
               autoComplete="on"
               className="form-control"
               required="required"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="">StateUser</label>
-            <select
-              onChange={(event) => setStateUser(event.target.value)}
-              className="form-control form-select"
-              required="required"
-            >
-              <option value="0">PENDING</option>
-              <option value="1">ACTIVED</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="">Role</label>
-            <select
-              onChange={(event) => setRole(event.target.value)}
-              className="form-control form-select"
-              required="required"
-            >
-              <option value="1">ROLE_ADMIN</option>
-              <option value="2">ROLE_USER</option>
-            </select>
-          </div>
+          </form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

@@ -16,11 +16,11 @@ const AddUserModal = (props) => {
   const handleSaveUser = async () => {
     let res = await postInsertUser(InsertUser);
     if (res && res.data && res.data.id) {
-      // handleClose();
+      handleClose();
       setFullname('');
       setUsername('');
       setPassword('');
-      // handleUpdateTable(true);
+      handleUpdateTable(true);
       toast.success(res.message);
     } else {
       handleUpdateTable(false);

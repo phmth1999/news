@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,6 +53,16 @@ public class NewApi {
 		return new ResponseEntity<>(new MessageResponse("failed!", null), HttpStatus.OK);
 		
 	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<?> showNewById(@PathVariable("id") long id){
+		NewDTO newResponse = newService.findById(id);
+		if(newResponse == null) {
+			return new ResponseEntity<>(new MessageResponse("failed!", null), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(new MessageResponse("success!", newResponse), HttpStatus.OK);
+		}
+	}
 
 	@PostMapping(value = "/insert")
 	public ResponseEntity<?> createNew(@RequestBody NewDTO newDTO) {
@@ -58,26 +70,26 @@ public class NewApi {
 			NewDTO newResponse = newService.insert(newDTO);
 			
 			if(newResponse == null || newResponse.isEmpty()) {
-				return new ResponseEntity<>(new MessageResponse("Create failed!", null), HttpStatus.OK);
+				return new ResponseEntity<>(new MessageResponse("Create new failed!", null), HttpStatus.OK);
 			}
 			
-			return new ResponseEntity<>(new MessageResponse("Create success!", newResponse), HttpStatus.OK);
+			return new ResponseEntity<>(new MessageResponse("Create new success!", newResponse), HttpStatus.OK);
 			
 		} catch (NewException e) {
 			return new ResponseEntity<>(new MessageResponse(e.getMessage(), null), HttpStatus.OK);
 		}
 	}
 	
-	@PostMapping(value = "/update")
+	@PutMapping(value = "/update")
 	public ResponseEntity<?> updateNew(@RequestBody NewDTO newDTO) {
 		try {
 			NewDTO newResponse = newService.update(newDTO);
 			
 			if(newResponse == null || newResponse.isEmpty()) {
-				return new ResponseEntity<>(new MessageResponse("Create failed!", null), HttpStatus.OK);
+				return new ResponseEntity<>(new MessageResponse("Update new failed!", null), HttpStatus.OK);
 			}
 			
-			return new ResponseEntity<>(new MessageResponse("Create success!", newResponse), HttpStatus.OK);
+			return new ResponseEntity<>(new MessageResponse("Update new success!", newResponse), HttpStatus.OK);
 			
 		} catch (NewException e) {
 			return new ResponseEntity<>(new MessageResponse(e.getMessage(), null), HttpStatus.OK);
@@ -85,7 +97,7 @@ public class NewApi {
 	}
 	
 	
-	@DeleteMapping(value = "new/delete")
+	@DeleteMapping(value = "/delete")
 	public void deleteNew(@RequestBody long[] id) {
 		newService.delete(id);
 	}

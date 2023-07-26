@@ -51,7 +51,6 @@ public class NewService implements INewService {
 			newDTO.setThumbnail(newEntity.getThumbnail());
 			newDTO.setShortDescription(newEntity.getShortDescription());
 			newDTO.setContent(newEntity.getContent());
-			
 			listNewDTO.add(newDTO);
 		}
 		
@@ -191,6 +190,20 @@ public class NewService implements INewService {
 	@Override
 	public int totalItem() {
 		return (int) newRepository.count();
+	}
+
+	@Override
+	public NewDTO findById(long id) {
+		Optional<NewEntity> newSave = newRepository.findById(id);
+		
+		NewDTO newResponse = new NewDTO();
+		newResponse.setId(newSave.get().getId());
+		newResponse.setCategory(newSave.get().getCategory().getId());
+		newResponse.setTitle(newSave.get().getTitle());
+		newResponse.setThumbnail(newSave.get().getThumbnail());
+		newResponse.setShortDescription(newSave.get().getShortDescription());
+		newResponse.setContent(newSave.get().getContent());
+		return newResponse;
 	}
 
 }

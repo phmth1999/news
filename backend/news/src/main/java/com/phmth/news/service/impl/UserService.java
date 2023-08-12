@@ -222,5 +222,18 @@ public class UserService implements IUserService{
 		return userResponse;
 	}
 	
+	@Override
+	public boolean delete(long id) {
+			if(!userRepository.existsById(id)) {
+				throw new UserException("Users with id = '"+id+"' not exist!");
+			}
+			
+			userRepository.deleteById(id);
+			
+			if(userRepository.existsById(id)) {
+				return false;
+			}
+		return true;
+	}
 
 }

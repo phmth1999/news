@@ -26,4 +26,6 @@ public interface IUserService {
 	UserResponse insert(InsertUserRequest insertUserRequest);
 
 	UserResponse update(UpdateUserRequest updateUserRequest);
+
+	boolean delete(long id);
 }

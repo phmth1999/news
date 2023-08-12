@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -81,6 +83,20 @@ public class UserApi {
 		} catch (UserException e) {
 			return new ResponseEntity<>(new MessageResponse(e.getMessage(), null), HttpStatus.OK);
 		}
+	}
+	@DeleteMapping(value = "/delete/{id}")
+	public ResponseEntity<?> deleteNew(@PathVariable("id") long id) {
+		try {
+			boolean userResponse = userService.delete(id);
+			if(!userResponse) {
+				return new ResponseEntity<>(new MessageResponse("Delete user failed!", null), HttpStatus.OK);
+			}
+			
+			return new ResponseEntity<>(new MessageResponse("Delete user success!", "success"), HttpStatus.OK);
+		} catch (UserException e) {
+			return new ResponseEntity<>(new MessageResponse(e.getMessage(), null), HttpStatus.OK);
+		}
+		
 	}
 	
 }

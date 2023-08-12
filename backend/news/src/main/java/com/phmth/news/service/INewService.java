@@ -17,7 +17,7 @@ public interface INewService {
 	
 	NewDTO update(NewDTO newDTO);
 	
-	boolean delete(long[] id);
+	boolean delete(long id);
 	
 	int totalItem();
 }

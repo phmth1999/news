@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 const UpdateUserModal = (props) => {
-  const { show, handleClose, dataUserUpdate, handleUpdateUserFormModal } = props;
+  const { show, handleClose, dataUserUpdate, handleLoadListUserByPage } = props;
   const [id, setId] = useState("");
   const [fullname, setFullname] = useState("");
   const [status, setStatus] = useState("");
@@ -15,11 +15,7 @@ const UpdateUserModal = (props) => {
   const handleUpdateUser = async () => {
     let res = await putUpdateUser(updateUser);
     if (res && res.data && res.data.id) {
-      handleUpdateUserFormModal({
-        fullname: fullname,
-        status: status,
-        id: id,
-      })
+      handleLoadListUserByPage();
       handleClose();
       toast.success(res.message);
     }else{
@@ -39,7 +35,7 @@ const UpdateUserModal = (props) => {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} backdrop="static">
         <Modal.Header closeButton>
           <Modal.Title>Update User</Modal.Title>
         </Modal.Header>

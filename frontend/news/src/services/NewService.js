@@ -16,4 +16,8 @@ const putUpdateNew = (UpdateNewForm) => {
     return axios.put(`/new/update`, UpdateNewForm);
 }
 
-export { getAllNew, postInsertNew, putUpdateNew, getNewById};
+const deleteNew = (id) => {
+    return axios.delete(`/new/delete/${id}`);
+}
+
+export { getAllNew, postInsertNew, putUpdateNew, getNewById, deleteNew};

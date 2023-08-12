@@ -5,26 +5,33 @@ import { getAllNew } from "../../services/NewService";
 import ReactPaginate from "react-paginate";
 import AddNewModal from "../../components/admin/modal/AddNewModal";
 import UpdateNewModal from '../../components/admin/modal/UpdateNewModal';
+import RemoveNewModal from '../../components/admin/modal/RemoveNewModal';
 
 const ManagerNew = () => {
 
   const [isShowInsert, setShowInsert] = useState(false);
   const [isShowUpdate, setShowUpdate] = useState(false);
+  const [isShowDelete, setShowDelete] = useState(false);
   const [dataNewUpdate, setDataNewUpdate] = useState({});
   const [listNews, setListNews] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+  const [pages, setPage] = useState(0);
+  const [dataNewDelete, setDataNewDelete] = useState({});
 
   const handleClose = () => {
     setShowInsert(false);
     setShowUpdate(false);
+    setShowDelete(false);
   };
 
   const handlePageClick = (event) => {
     getNew(+event.selected + 1);
+    setPage(+event.selected + 1);
   };
 
   useEffect(() => {
     getNew(1);
+    setPage(1);
   }, []);
 
   const getNew = async (page) => {
@@ -35,9 +42,22 @@ const ManagerNew = () => {
     }
   };
 
-  const handleUpdateNew = (user) => {
-    setDataNewUpdate(user);
+  const handleClickUpdateNew = (data) => {
+    setDataNewUpdate(data);
     setShowUpdate(true);
+  }
+
+  const handleClickDeleteNew = (data) => {
+    setDataNewDelete(data);
+    setShowDelete(true);
+  }
+  const handleLoadListNewByFirst = () => {
+      getNew(1);
+      setPage(1);
+  };
+  const handleLoadListNewByPage = () => {
+    getNew(pages);
+    setPage(pages);
   }
 
   return (
@@ -70,11 +90,14 @@ const ManagerNew = () => {
                     <td>
                       <button
                         className="btn btn-sm btn-primary"
-                        onClick={() => handleUpdateNew(item)}
+                        onClick={() => handleClickUpdateNew(item)}
                       >
                         Update
                       </button>
-                      <button className="btn btn-sm btn-danger mx-1">
+                      <button 
+                        className="btn btn-sm btn-danger mx-1"
+                        onClick={() => handleClickDeleteNew(item)}
+                      >
                         Remove
                       </button>
                     </td>
@@ -107,11 +130,19 @@ const ManagerNew = () => {
       <AddNewModal
         show={isShowInsert}
         handleClose={handleClose}
+        handleLoadListNewByFirst={handleLoadListNewByFirst}
       />
       <UpdateNewModal
         show={isShowUpdate}
         handleClose={handleClose}
         dataNewUpdate={dataNewUpdate}
+        handleLoadListNewByPage={handleLoadListNewByPage}
+      />
+      <RemoveNewModal
+        show={isShowDelete}
+        handleClose={handleClose}
+        dataNewDelete={dataNewDelete}
+        handleLoadListNewByPage={handleLoadListNewByPage}
       />
     </>
   )

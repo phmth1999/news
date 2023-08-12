@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 const AddUserModal = (props) => {
-  const { show, handleClose, handleUpdateTable } = props;
+  const { show, handleClose, handleLoadListUserByFirst } = props;
 
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
@@ -16,21 +16,20 @@ const AddUserModal = (props) => {
   const handleSaveUser = async () => {
     let res = await postInsertUser(InsertUser);
     if (res && res.data && res.data.id) {
+      handleLoadListUserByFirst();
       handleClose();
       setFullname('');
       setUsername('');
       setPassword('');
-      handleUpdateTable(true);
       toast.success(res.message);
     } else {
-      handleUpdateTable(false);
       toast.error(res.message);
     }
   };
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} backdrop="static">
         <Modal.Header closeButton>
           <Modal.Title>Add User</Modal.Title>
         </Modal.Header>

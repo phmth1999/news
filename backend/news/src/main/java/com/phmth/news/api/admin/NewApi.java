@@ -97,8 +97,17 @@ public class NewApi {
 	}
 	
 	
-	@DeleteMapping(value = "/delete")
-	public void deleteNew(@RequestBody long[] id) {
-		newService.delete(id);
+	@DeleteMapping(value = "/delete/{id}")
+	public ResponseEntity<?> deleteNew(@PathVariable("id") long id) {
+		try {
+			boolean newResponse = newService.delete(id);
+			if(!newResponse) {
+				return new ResponseEntity<>(new MessageResponse("Delete new failed!", null), HttpStatus.OK);
+			}
+			
+			return new ResponseEntity<>(new MessageResponse("Delete new success!", "success"), HttpStatus.OK);
+		} catch (NewException e) {
+			return new ResponseEntity<>(new MessageResponse(e.getMessage(), null), HttpStatus.OK);
+		}
 	}
 }

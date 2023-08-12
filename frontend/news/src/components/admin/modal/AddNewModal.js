@@ -1,33 +1,56 @@
 import React from "react";
 import { useState } from "react";
-// import { postInsertUser } from "../../../services/UserService";
-// import { toast } from "react-toastify";
+import { postInsertNew } from "../../../services/NewService";
+import { toast } from "react-toastify";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const AddNewModal = (props) => {
-  const { show, handleClose } = props;
+  const { show, handleClose, handleLoadListNewByFirst } = props;
 
+  const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
   const [thumbnail, setThumbnail] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [content, setContent] = useState("");
-  // const InsertNew = { title, thumbnail, shortDescription, content};
+  const InsertNew = { category, title, thumbnail, shortDescription, content};
 
   const handleSaveNew = async () => {
-   
+    let res = await postInsertNew(InsertNew);
+    if (res && res.data && res.data.id) {
+      handleLoadListNewByFirst();
+      handleClose();
+      setCategory('');
+      setTitle('');
+      setThumbnail('');
+      setShortDescription('');
+      setContent("");
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
+    }
   };
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} backdrop="static">
         <Modal.Header closeButton>
           <Modal.Title>Add New</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>
+          <div className="form-group pt-3">
+            <label htmlFor="">Category</label>
+            <input
+              onChange={(event) => setCategory(event.target.value)}
+              value={category}
+              type="text"
+              className="form-control"
+              required="required"
+            />
+          </div>
           <div className="form-group pt-3">
             <label htmlFor="">Title</label>
             <input

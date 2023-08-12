@@ -5,10 +5,12 @@ import java.lang.reflect.Field;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class NewDTO {
 	
 	private Long id;

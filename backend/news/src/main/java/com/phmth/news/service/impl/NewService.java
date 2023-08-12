@@ -172,8 +172,7 @@ public class NewService implements INewService {
 	}
 
 	@Override
-	public boolean delete(long[] ids) {
-		for (long id : ids) {
+	public boolean delete(long id) {
 			if(!newRepository.existsById(id)) {
 				throw new NewException("News with id = '"+id+"' not exist!");
 			}
@@ -183,7 +182,6 @@ public class NewService implements INewService {
 			if(newRepository.existsById(id)) {
 				return false;
 			}
-		}
 		return true;
 	}
 

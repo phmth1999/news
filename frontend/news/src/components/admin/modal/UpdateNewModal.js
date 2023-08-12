@@ -1,40 +1,54 @@
 import React from "react";
 import { useState, useEffect } from "react";
-// import { postInsertUser } from "../../../services/UserService";
-// import { toast } from "react-toastify";
+import { putUpdateNew } from "../../../services/NewService";
+import { toast } from "react-toastify";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const UpdateNewModal = (props) => {
-  const { show, handleClose, dataNewUpdate } = props;
+  const { show, handleClose, dataNewUpdate, handleLoadListNewByPage } = props;
 
   const [id, setId] = useState("");
+  const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
   const [thumbnail, setThumbnail] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [content, setContent] = useState("");
-  // const UpdateNew = { id, title, thumbnail, shortDescription, content};
+  const UpdateNew = { id, category, title, thumbnail, shortDescription, content};
 
   const handleSaveNew = async () => {
-   
+    let res = await putUpdateNew(UpdateNew);
+    if (res && res.data && res.data.id) {
+      handleLoadListNewByPage();
+      handleClose();
+      setId('');
+      setCategory('');
+      setTitle('');
+      setThumbnail('');
+      setShortDescription('');
+      setContent("");
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
+    }
   };
 
   useEffect(() => {
     if(show){
       setId(dataNewUpdate.id);
+      setCategory(dataNewUpdate.category);
       setTitle(dataNewUpdate.title);
       setThumbnail(dataNewUpdate.thumbnail);
       setShortDescription(dataNewUpdate.shortDescription);
       setContent(dataNewUpdate.content);
-      console.log(dataNewUpdate)
     }
   }, [dataNewUpdate]);
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} backdrop="static">
         <Modal.Header closeButton>
           <Modal.Title>Update New</Modal.Title>
         </Modal.Header>
@@ -48,6 +62,16 @@ const UpdateNewModal = (props) => {
               type="text"
               className="form-control"
               readOnly
+            />
+          </div>
+          <div className="form-group pt-3">
+            <label htmlFor="">Category</label>
+            <input
+              onChange={(event) => setCategory(event.target.value)}
+              value={category}
+              type="text"
+              className="form-control"
+              required="required"
             />
           </div>
           <div className="form-group pt-3">

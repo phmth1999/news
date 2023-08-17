@@ -6,13 +6,13 @@ const Register = () => {
   return (
     <>
       <Path title="Register"/>
-      <section className="container login">
+      <section className="container login pb-4">
         <div className="row">
           <div className="col-md-4 col-12 p-0" id="side1">
             <div>
               <h3>Welcome Back!</h3>
               <p>Login Account</p>
-              <Link><button id="btn">Sign in</button></Link>
+              <Link to={"/login"}><button id="btn">Sign in</button></Link>
             </div>
           </div>
           <div className="col-md-8 col-12 p-0" id="side2">

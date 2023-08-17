@@ -1,52 +1,48 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React from "react";
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import logo from '../../assets/images/logo.svg';
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import {useContext} from 'react';
+import {UserContext} from '../../context/UserContext';
+
 const Header = () => {
+  const {logout, user} = useContext(UserContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const handleClickLogout = () => {
+    logout();
+    navigate("/");
+    toast.success("Logout successfully!");
+  };
   return (
     <>
-    <div className='mb-0 py-2 bg-dark'>
-        <div className="container">
-            <div className="row">
-                <div className="col-12">
-                    <p className="text-end mb-0">
-                        <Link className="text-white" to={"/login"}>Login</Link>
-                        <Link className="text-white"> / </Link>
-                        <Link className="text-white" to={"/register"}>Register</Link>
-                    </p>
-                </div>
-            </div>
-        </div>
-      </div>
-
-      
-      <header>
-        <nav className="navbar navbar-expand-sm navbar-light bg-light">
-          <div className="container">
-            <Link className="navbar-brand" to={""}><img src="/logo.svg" alt="" /></Link>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="mynavbar">
-              <ul className="navbar-nav me-auto">
-                <li className="nav-item">
-                  <Link className="nav-link" to={"/"}>Home</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to={"/admin/user"}>Manager User</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to={"/admin/new"}>Manager New</Link>
-                </li>
-              </ul>
-              <form className="d-flex">
-                <input className="form-control me-2" type="text" placeholder="Search" />
-                <button className="btn btn-primary" type="button">Search</button>
-              </form>
-            </div>
-          </div>
-        </nav>
-      </header>
+    <Navbar expand="lg" className="bg-body-tertiary header">
+      <Container>
+        <Navbar.Brand href="/"><img src={logo} alt="" /></Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto" activeKey={location.pathname}>
+            <Nav.Link href="/admin/user" >User Management</Nav.Link>
+            <Nav.Link href="/admin/new" >News Management</Nav.Link>
+          </Nav>
+          <Nav>
+            {user && user.username && <span className="nav-link text-white">Welcome {user.username}</span>}
+            <NavDropdown title="Settings" id="basic-nav-dropdown" className="setting">
+              {user && user.auth === true
+                ? <NavDropdown.Item onClick={() => handleClickLogout()}>Logout</NavDropdown.Item>
+                : <NavLink className="dropdown-item" to={"/login"}>Login</NavLink>
+              }
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
     </>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

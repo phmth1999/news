@@ -27,8 +27,8 @@ const Home = () => {
   return (
     <>
       <section>
-        <div className="container">
-          <div className="row">
+        <div className="container p-3">
+          <div className="row pb-3">
             <div className="col-12">
               <div className="box-news">
                 {listNews &&

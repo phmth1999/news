@@ -76,6 +76,27 @@ ul{
   min-height: 100vh;
   position: relative;
 }
+.header{
+	background-color: var(--color-232f3e);
+}
+.setting>a{
+	color: white;
+}
+.setting:hover>a{
+	color: white;
+}
+.navbar-nav .show>.nav-link{
+	color: white;
+}
+.navbar-nav .nav-link.active{
+	color: green;
+}
+.navbar-nav>a{
+	color: white;
+}
+.navbar-nav:hover>a{
+	color: white;
+}
 /* Footer */
 footer {
   position:absolute;
@@ -224,7 +245,6 @@ footer {
 .box-new-item{
 	width: 97%;
 	height: 200px;
-	margin: auto;
 }
 .box-new-item img{
 	width: 250px;

@@ -87,7 +87,7 @@ const ManagerNew = () => {
                     <td>{item.id}</td>
                     <td>{item.title}</td>
                     <td>{item.shortDescription}</td>
-                    <td>
+                    <td className='d-flex'>
                       <button
                         className="btn btn-sm btn-primary"
                         onClick={() => handleClickUpdateNew(item)}

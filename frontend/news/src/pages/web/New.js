@@ -3,7 +3,7 @@ import Path from "../../components/web/Path";
 import { useParams } from 'react-router-dom';
 import { getNewById } from "../../services/NewService";
 import { useEffect, useState } from "react";
-import parse  from 'html-react-parser';
+// import parse  from 'html-react-parser';
 
 const New = () => {
   const { id } = useParams();
@@ -19,17 +19,16 @@ const New = () => {
       setNews(res.data);
     }
   };
-  console.log(news);
   const content = `${news.content}`;
   return (
     <>
       <Path title="New"/>
-      <section>
+      <section className='pb-3'>
 			<div className="container">
       {/* {parse(content)} */}
       <div dangerouslySetInnerHTML={{__html: content}}></div>
 			</div>
-		</section>
+		  </section>
     </>
   )
 }

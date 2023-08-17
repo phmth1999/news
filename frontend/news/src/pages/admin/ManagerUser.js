@@ -100,7 +100,7 @@ const ManagerUser = () => {
                     <td>{item.username}</td>
                     <td>{item.fullname}</td>
                     <td>{item.roles}</td>
-                    <td>
+                    <td className='d-flex'>
                       <button
                         className="btn btn-sm btn-primary"
                         onClick={() => handleClickUpdateUser(item)}

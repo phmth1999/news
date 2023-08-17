@@ -59,8 +59,9 @@ public class AuthApi {
 	@PostMapping(value = "/login")
 	public ResponseEntity<?> login(@RequestBody SigninForm signinForm){
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signinForm.getUsername(), signinForm.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+			
 		String token = jwtProvider.createToken(authentication);
 		
 		CustomUser userPrinciple = (CustomUser) authentication.getPrincipal();

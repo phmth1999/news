@@ -1,24 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import logo from '../../assets/images/logo.svg';
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { handleLogoutRedux } from "../../redux/actions/userAction";
 import { toast } from "react-toastify";
-import {useContext} from 'react';
-import {UserContext} from '../../context/UserContext';
 
 const Header = () => {
-  const {logout, user} = useContext(UserContext);
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user.account);
 
   const navigate = useNavigate();
   const location = useLocation();
 
+  useEffect(() =>{
+    if(user && user.auth === false && window.location.pathname !== "/login"){
+      navigate("/login");
+      toast.success("Logout successfully!");
+    }
+  }, [user]);
+
   const handleClickLogout = () => {
-    logout();
-    navigate("/");
-    toast.success("Logout successfully!");
+    dispatch(handleLogoutRedux());
   };
 
   return (
@@ -32,7 +38,7 @@ const Header = () => {
             <NavLink className="nav-link" to={"/"}>Home</NavLink>
           </Nav>
           <Nav>
-            {user && user.username && <span className="nav-link text-white">Welcome {user.username}</span>}
+            {user && user.auth === true && user.username && <span className="nav-link text-white">Welcome {user.username}</span>}
             <NavDropdown title="Settings" id="basic-nav-dropdown" className="setting">
               {user && user.auth === true
                 ? <NavDropdown.Item onClick={() => handleClickLogout()}>Logout</NavDropdown.Item>

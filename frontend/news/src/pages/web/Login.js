@@ -2,43 +2,40 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import Path from "../../components/web/Path";
 import { Link, useNavigate } from "react-router-dom";
-import { loginApi } from '../../services/UserService';
 import { toast } from "react-toastify";
-import {useContext} from 'react';
-import {UserContext} from '../../context/UserContext';
+import { handleLoginRedux } from '../../redux/actions/userAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Login = () => {
-  const {loginContext} = useContext(UserContext);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const account = useSelector(state => state.user.account);
+
   useEffect(() => {
-    let token = localStorage.getItem("token");
-    if(token){
+    if(account && account.auth == null && window.location.pathname === "/login"){
+      toast.error("Username/Password is required!");
+    }else
+    if(account && account.auth === true){
       navigate("/");
+      toast.success("Login successfully!");
     }
-  }, []);
+  }, [account]);
 
   const handleClickLogin = async () => {
     if(!username || !password){
       toast.error("Username/Password is required!");
       return;
-    }else{
-      try {
-        let res = await loginApi(username, password);
-        if(res && res.token){
-          loginContext(username, res.token);
-          navigate("/");
-          toast.success("Login successfully!");
-        }else{
-          toast.error("Username/Password is correct!");
-        }
-      } catch (error) {
-        toast.error("Username/Password is correct!");
-      }
     }
+
+    dispatch(handleLoginRedux(username, password));
+
   };
+
+
 
   return (
     <>
